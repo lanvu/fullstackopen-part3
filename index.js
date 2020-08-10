@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.use(express.static('build'))
 
-morgan.token('req-body', (req, res) => JSON.stringify(req.body))
+morgan.token('req-body', req => JSON.stringify(req.body))
 
 app.use(
   morgan(
@@ -85,7 +85,7 @@ app.put('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then(result => {
+    .then(() => {
       res.status(204).end()
     })
     .catch(error => next(error))
